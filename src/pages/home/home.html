@@ -6,7 +6,7 @@
 
 <ion-content padding>
   <table width="100%" border="1" style="height: 100%;">
-    <tr style="height: 2%;">
+    <tr style="height: 4%;">
       <th width="14.28%">Sun</th>
       <th width="14.28%">Mon</th>
       <th width="14.28%">Tue</th>
@@ -15,66 +15,59 @@
       <th width="14.28%">Fri</th>
       <th width="14.28%">Sat</th>
     </tr>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-    <tr style="height: 14%;">
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
+    <tr style="height: 16%;">
+      <td>{{gridPosition[0][0]}}<div *ngFor="let item of dayContent[0][0]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[1][0]}}<div *ngFor="let item of dayContent[1][0]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[2][0]}}<div *ngFor="let item of dayContent[2][0]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[3][0]}}<div *ngFor="let item of dayContent[3][0]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[4][0]}}<div *ngFor="let item of dayContent[4][0]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[5][0]}}<div *ngFor="let item of dayContent[5][0]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[6][0]}}<div *ngFor="let item of dayContent[6][0]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
     </tr>
-    <tr style="height: 14%;">
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
+    <tr style="height: 16%;">
+      <td>{{gridPosition[0][1]}}<div *ngFor="let item of dayContent[0][1]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[1][1]}}<div *ngFor="let item of dayContent[1][1]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[2][1]}}<div *ngFor="let item of dayContent[2][1]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[3][1]}}<div *ngFor="let item of dayContent[3][1]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[4][1]}}<div *ngFor="let item of dayContent[4][1]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[5][1]}}<div *ngFor="let item of dayContent[5][1]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[6][1]}}<div *ngFor="let item of dayContent[6][1]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
     </tr>
-    <tr style="height: 14%;">
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
+    <tr style="height: 16%;">
+      <td>{{gridPosition[0][2]}}<div *ngFor="let item of dayContent[0][2]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[1][2]}}<div *ngFor="let item of dayContent[1][2]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[2][2]}}<div *ngFor="let item of dayContent[2][2]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[3][2]}}<div *ngFor="let item of dayContent[3][2]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[4][2]}}<div *ngFor="let item of dayContent[4][2]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[5][2]}}<div *ngFor="let item of dayContent[5][2]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[6][2]}}<div *ngFor="let item of dayContent[6][2]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
     </tr>
-    <tr style="height: 14%;">
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
+    <tr style="height: 16%;">
+      <td>{{gridPosition[0][3]}}<div *ngFor="let item of dayContent[0][3]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[1][3]}}<div *ngFor="let item of dayContent[1][3]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[2][3]}}<div *ngFor="let item of dayContent[2][3]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[3][3]}}<div *ngFor="let item of dayContent[3][3]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[4][3]}}<div *ngFor="let item of dayContent[4][3]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[5][3]}}<div *ngFor="let item of dayContent[5][3]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[6][3]}}<div *ngFor="let item of dayContent[6][3]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
     </tr>
-    <tr style="height: 14%;">
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
+    <tr style="height: 16%;">
+      <td>{{gridPosition[0][4]}}<div *ngFor="let item of dayContent[0][4]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[1][4]}}<div *ngFor="let item of dayContent[1][4]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[2][4]}}<div *ngFor="let item of dayContent[2][4]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[3][4]}}<div *ngFor="let item of dayContent[3][4]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[4][4]}}<div *ngFor="let item of dayContent[4][4]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[5][4]}}<div *ngFor="let item of dayContent[5][4]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[6][4]}}<div *ngFor="let item of dayContent[6][4]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
     </tr>
-    <tr style="height: 14%;">
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
+    <tr style="height: 16%;">
+      <td>{{gridPosition[0][5]}}<div *ngFor="let item of dayContent[0][5]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[1][5]}}<div *ngFor="let item of dayContent[1][5]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[2][5]}}<div *ngFor="let item of dayContent[2][5]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[3][5]}}<div *ngFor="let item of dayContent[3][5]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[4][5]}}<div *ngFor="let item of dayContent[4][5]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[5][5]}}<div *ngFor="let item of dayContent[5][5]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
+      <td>{{gridPosition[6][5]}}<div *ngFor="let item of dayContent[6][5]"><ion-badge color="{{item.color}}">{{item.content}}</ion-badge></div></td>
     </tr>
   </table>
 </ion-content>
