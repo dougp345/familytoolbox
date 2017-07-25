@@ -1,7 +1,28 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>{{currentMonthYear}}</ion-title>
-  </ion-navbar>
+  <ion-grid>
+    <ion-row><ion-col col-12></ion-col></ion-row>
+    <ion-row><ion-col col-12></ion-col></ion-row>
+    <ion-row align-items-center>
+      <ion-col col-2></ion-col>
+      <ion-col col-2 align="right">
+        <button ion-button small (click)="goPreviousMonth()">
+          <strong><</strong>
+        </button>
+      </ion-col>
+      <ion-col col-4 align="center"><strong>{{currentMonthYearDisplay}}</strong></ion-col>
+      <ion-col col-2 align="left">
+        <button ion-button small (click)="goNextMonth()">
+          <strong>></strong>
+        </button>
+      </ion-col>
+      <ion-col col-2 align="center">
+        <button ion-button small color="purple">
+          <strong>+</strong>
+        </button>
+      </ion-col>
+    </ion-row>
+</ion-grid>
+
 </ion-header>
 
 <ion-content padding>

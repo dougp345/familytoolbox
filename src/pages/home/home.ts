@@ -8,19 +8,21 @@ import * as moment from 'moment';
 })
 
 export class HomePage {
-  currentMonthYear: string;
+  selectedMonth: any;
+  currentMonthYearDisplay: string;
   gridPosition: object = {};
   dayContent: object = {};
 
   constructor(public navCtrl: NavController) {
-    this.goMonth(moment().format('MM'), moment().format('YYYY'));
+    this.selectedMonth = moment().startOf('month');;
+    this.goMonth(this.selectedMonth.format('MM'), this.selectedMonth.format('YYYY'));
   }
 
   goMonth(month: string, year: string) {
     let x: number;
     let y: number;
     let currentDay: number = 1;
-    this.currentMonthYear = moment(month, 'MM').format('MMMM') + " " + year;
+    this.currentMonthYearDisplay = moment(month, 'MM').format('MMMM') + " " + year;
     let daysInMonth = moment(year + "-" + month, "YYYY-MM").daysInMonth();
     let firstDayOfMonth = moment(year + "-" + month + "-01", "YYYY-MM-DD").format('d');
 
@@ -50,6 +52,16 @@ export class HomePage {
 
     this.dayContent[6][0] = [{content: "Some", color: "danger"}];
     this.dayContent[4][2] = [{content: "Wow", color: "primary"}, {content: "Dance", color: "secondary"}];
+  }
+
+  goNextMonth() {
+    this.selectedMonth = moment(this.selectedMonth).add(1, 'month');
+    this.goMonth(this.selectedMonth.format('MM'), this.selectedMonth.format('YYYY'));
+  }
+
+  goPreviousMonth() {
+    this.selectedMonth = moment(this.selectedMonth).subtract(1, 'month');
+    this.goMonth(this.selectedMonth.format('MM'), this.selectedMonth.format('YYYY'));
   }
 
 }
