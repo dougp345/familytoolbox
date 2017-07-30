@@ -7,5 +7,24 @@
 </ion-header>
 
 <ion-content padding>
-
+  <ion-card>
+    <ion-card-header>
+      Calendar
+    </ion-card-header>
+    <ion-card-content>
+      Coming Soon
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      Grocery
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list no-lines>
+        <button ion-item (click)="editGroceryItems()">
+          Edit Grocery Items
+        </button>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

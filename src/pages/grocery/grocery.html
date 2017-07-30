@@ -1,29 +1,75 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
-      Grocery
-    </ion-title>
+    <table width="100%">
+      <tr>
+        <td width="33%" align="center"><ion-badge color="purple">{{this.remainingItems}}</ion-badge></td>
+        <td width="33%" align="center"><strong>Grocery</strong></td>
+        <td width="33%" align="center"><button ion-button small color="danger" (click)="clearItems()"><strong>X</strong></button></td>
+      </tr>
+    </table>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <div>
-    <ion-segment [(ngModel)]="sections">
-      <ion-segment-button value="produce">
-        Produce
-      </ion-segment-button>
-      <ion-segment-button value="center">
-        Center
-      </ion-segment-button>
-      <ion-segment-button value="meats">
-        Meats
-      </ion-segment-button>
-      <ion-segment-button value="cold">
-        Cold
-      </ion-segment-button>
-      <ion-segment-button value="misc">
-        Misc
-      </ion-segment-button>
+    <ion-segment [(ngModel)]="section">
+      <ion-segment-button value="add">+</ion-segment-button>
+      <ion-segment-button value="produce">Produce</ion-segment-button>
+      <ion-segment-button value="center">Center</ion-segment-button>
+      <ion-segment-button value="meats">Meats</ion-segment-button>
+      <ion-segment-button value="cold">Cold</ion-segment-button>
+      <ion-segment-button value="misc">Misc</ion-segment-button>
     </ion-segment>
+  </div>
+
+  <div [ngSwitch]="section">
+    <div *ngSwitchCase="'add'">
+      <ion-searchbar (ionInput)="getGroceryItems($event)"></ion-searchbar>
+      <ion-list>
+        <ion-item *ngFor="let item of addGroceryItemsView" (click)="addItemToList(item)">
+          {{ item.item }}
+        </ion-item>
+      </ion-list>
+    </div>
+    <div *ngSwitchCase="'produce'">
+      <ion-list>
+        <ion-item *ngFor="let item of produceGroceryItemsView">
+          <ion-label color="{{item.color}}">{{item.item}}</ion-label>
+          <ion-toggle checked="{{item.checked}}" color="secondary" (ionChange)="toggleItem(item)"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div *ngSwitchCase="'center'">
+      <ion-list>
+        <ion-item *ngFor="let item of centerGroceryItemsView">
+          <ion-label color="{{item.color}}">{{item.aisle}} | {{item.item}}</ion-label>
+          <ion-toggle checked="{{item.checked}}" color="secondary" (ionChange)="toggleItem(item)"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div *ngSwitchCase="'meats'">
+      <ion-list>
+        <ion-item *ngFor="let item of meatsGroceryItemsView">
+          <ion-label color="{{item.color}}">{{item.item}}</ion-label>
+          <ion-toggle checked="{{item.checked}}" color="secondary" (ionChange)="toggleItem(item)"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div *ngSwitchCase="'cold'">
+      <ion-list>
+        <ion-item *ngFor="let item of coldGroceryItemsView">
+          <ion-label color="{{item.color}}">{{item.item}}</ion-label>
+          <ion-toggle checked="{{item.checked}}" color="secondary" (ionChange)="toggleItem(item)"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div *ngSwitchCase="'misc'">
+      <ion-list>
+        <ion-item *ngFor="let item of miscGroceryItemsView">
+          <ion-label color="{{item.color}}">{{item.item}}</ion-label>
+          <ion-toggle checked="{{item.checked}}" color="secondary" (ionChange)="toggleItem(item)"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    </div>
   </div>
 </ion-content>

@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Add New Grocery Item
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary">Cancel</span>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label fixed>Item</ion-label>
+      <ion-input type="text" value="{{newItem}}" [(ngModel)]="itemInput"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Section</ion-label>
+        <ion-select [(ngModel)]="sectionInput" interface="popover">
+          <ion-option value="produce">Produce</ion-option>
+          <ion-option value="center">Center</ion-option>
+          <ion-option value="meats">Meats</ion-option>
+          <ion-option value="cold">Cold</ion-option>
+          <ion-option value="misc">Misc</ion-option>
+        </ion-select>
+    </ion-item>
+    <ion-item *ngIf="sectionInput == 'center'">
+      <ion-label fixed>Aisle</ion-label>
+      <ion-input type="number" [(ngModel)]="aisleInput"></ion-input>
+    </ion-item>
+  </ion-list>
+  <button ion-button block (click)="save()">Save</button>
+</ion-content>
