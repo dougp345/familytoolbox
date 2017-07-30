@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      All Selected
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary">Cancel</span>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-list-header color="purple">
+      Produce
+    </ion-list-header>
+    <ion-item *ngFor="let item of produceGroceryItemsView">
+      <ion-label>{{item.item}}</ion-label>
+    </ion-item>
+    <br><br>
+    <ion-list-header color="purple">
+      Center
+    </ion-list-header>
+    <ion-item *ngFor="let item of centerGroceryItemsView">
+      <ion-label>{{item.item}}</ion-label>
+    </ion-item>
+    <br><br>
+    <ion-list-header color="purple">
+      Meats
+    </ion-list-header>
+    <ion-item *ngFor="let item of meatsGroceryItemsView">
+      <ion-label>{{item.item}}</ion-label>
+    </ion-item>
+    <br><br>
+    <ion-list-header color="purple">
+      Cold
+    </ion-list-header>
+    <ion-item *ngFor="let item of coldGroceryItemsView">
+      <ion-label>{{item.item}}</ion-label>
+    </ion-item>
+    <br><br>
+    <ion-list-header color="purple">
+      Misc
+    </ion-list-header>
+    <ion-item *ngFor="let item of miscGroceryItemsView">
+      <ion-label>{{item.item}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

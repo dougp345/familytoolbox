@@ -3,7 +3,9 @@ import { NavController, ModalController, AlertController, ToastController } from
 
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
-import { AddNewGroceryItemPage } from './groceryadditem';
+import { GroceryAddItemPage } from './groceryadditem';
+import { GroceryEditItemPage } from './groceryedititem';
+import { ListAllSelectedPage } from './listallselected';
 
 @Component({
   selector: 'page-grocery',
@@ -14,7 +16,7 @@ export class GroceryPage {
   remainingItems: number;
   fbGroceryItems: FirebaseListObservable<any>;
   fbSelectedGroceryItems: FirebaseListObservable<any>;
-  allGroceryItems: Object[] = [];
+  allGroceryItemsView: Object[] = [];
   selectedGroceryItems: Object[] = [];
   addGroceryItemsView: Object[] = [];
   produceGroceryItemsView: Object[] = [];
@@ -27,9 +29,9 @@ export class GroceryPage {
     this.section = "add";
     this.fbGroceryItems = af.list('/allgroceryitems');
     af.list('/allgroceryitems').subscribe(aGroceryItems => {
-      this.allGroceryItems = [];
+      this.allGroceryItemsView = [];
       aGroceryItems.forEach(groceryItem => {
-        this.allGroceryItems.push(groceryItem);
+        this.allGroceryItemsView.push(groceryItem);
       });
       this.filterGroceryItems();
     });
@@ -55,6 +57,11 @@ export class GroceryPage {
           this.miscGroceryItemsView.push(groceryItem);
         }
       });
+      this.produceGroceryItemsView.sort(this.sortArrayByItem);
+      this.centerGroceryItemsView.sort(this.sortArrayByAisle);
+      this.meatsGroceryItemsView.sort(this.sortArrayByItem);
+      this.coldGroceryItemsView.sort(this.sortArrayByItem);
+      this.miscGroceryItemsView.sort(this.sortArrayByItem);
       this.filterGroceryItems();
       this.countRemainingItems();
     });
@@ -73,15 +80,21 @@ export class GroceryPage {
     }
   }
 
+  editGroceryItem(item) {
+    this.navCtrl.push(GroceryEditItemPage, item);
+  }
+
   filterGroceryItems() {
-    this.addGroceryItemsView = this.allGroceryItems;
-console.log("in filter: add: " + this.addGroceryItemsView.length);
-console.log("in filter: all: " + this.allGroceryItems.length);
-    this.addGroceryItemsView = this.subtractArray(this.addGroceryItemsView, this.produceGroceryItemsView);
-    this.addGroceryItemsView = this.subtractArray(this.addGroceryItemsView, this.centerGroceryItemsView);
-    this.addGroceryItemsView = this.subtractArray(this.addGroceryItemsView, this.meatsGroceryItemsView);
-    this.addGroceryItemsView = this.subtractArray(this.addGroceryItemsView, this.coldGroceryItemsView);
-    this.addGroceryItemsView = this.subtractArray(this.addGroceryItemsView, this.miscGroceryItemsView);
+    this.addGroceryItemsView = [];
+    for (var i = 0; i < this.allGroceryItemsView.length; i++) {
+      this.addGroceryItemsView.push(this.allGroceryItemsView[i]);
+    }
+    // this.addGroceryItemsView = this.subtractArray(this.addGroceryItemsView, this.produceGroceryItemsView);
+    // this.addGroceryItemsView = this.subtractArray(this.addGroceryItemsView, this.centerGroceryItemsView);
+    // this.addGroceryItemsView = this.subtractArray(this.addGroceryItemsView, this.meatsGroceryItemsView);
+    // this.addGroceryItemsView = this.subtractArray(this.addGroceryItemsView, this.coldGroceryItemsView);
+    // this.addGroceryItemsView = this.subtractArray(this.addGroceryItemsView, this.miscGroceryItemsView);
+    this.addGroceryItemsView.sort(this.sortArrayByItem);
   }
 
   addItemToList(selectedItem) {
@@ -89,24 +102,29 @@ console.log("in filter: all: " + this.allGroceryItems.length);
       this.addNewGroceryItem(selectedItem.section);
     } else {
       this.fbSelectedGroceryItems.push({item: selectedItem.item, section: selectedItem.section, aisle: selectedItem.aisle, checked: true, color: ""})
+      let toast = this.toastCtrl.create({
+        message: 'Selected: ' + selectedItem.item,
+        duration: 1500
+      });
+      toast.present();
     }
     this.getGroceryItems({target: {value: ""}});
     this.countRemainingItems();
   }
 
   addNewGroceryItem(newItem) {
-    let modal = this.modalCtrl.create(AddNewGroceryItemPage, {item: newItem});
+    let modal = this.modalCtrl.create(GroceryAddItemPage, {item: newItem});
     modal.onDidDismiss(data => {
       if (data) {
         this.fbGroceryItems.push({item: data.item, section: data.section, aisle: data.aisle});
-        let toast = this.toastCtrl.create({
-          message: 'Item Created Successfully',
-          duration: 3000
-        });
-        toast.present();
         this.addItemToList({item: data.item, section: data.section, aisle: data.aisle});
       }
     });
+    modal.present();
+  }
+
+  listAllSelected() {
+    let modal = this.modalCtrl.create(ListAllSelectedPage, this.selectedGroceryItems);
     modal.present();
   }
 
@@ -190,17 +208,33 @@ console.log("in filter: all: " + this.allGroceryItems.length);
     toast.present();
   }
 
-  subtractArray(a, b) {
-    for (var i = 0; i < a.length; i++) {
-      var ai = a[i];
-      for (var j = 0; j < b.length; j++) {
-        var bj = b[j];
-        if (ai.item == bj.item && ai.section == bj.section) {
-          a.splice(i, 1);
-        }
-      }
-    }
-    return a;
-  };
+  // subtractArray(a, b) {
+  //   for (var i = 0; i < a.length; i++) {
+  //     var ai = a[i];
+  //     for (var j = 0; j < b.length; j++) {
+  //       var bj = b[j];
+  //       if (ai.item == bj.item && ai.section == bj.section) {
+  //         a.splice(i, 1);
+  //       }
+  //     }
+  //   }
+  //   return a;
+  // };
+
+  sortArrayByItem(a,b) {
+    if (a.item.toLowerCase() < b.item.toLowerCase())
+      return -1;
+    if (a.item.toLowerCase() > b.item.toLowerCase())
+      return 1;
+    return 0;
+  }
+
+  sortArrayByAisle(a,b) {
+    if (a.aisle < b.aisle)
+      return -1;
+    if (a.aisle > b.aisle)
+      return 1;
+    return 0;
+  }
 
 }

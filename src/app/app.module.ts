@@ -4,10 +4,10 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { GroceryPage } from '../pages/grocery/grocery';
-import { AddNewGroceryItemPage } from '../pages/grocery/groceryadditem';
+import { GroceryAddItemPage } from '../pages/grocery/groceryadditem';
+import { GroceryEditItemPage } from '../pages/grocery/groceryedititem';
+import { ListAllSelectedPage } from '../pages/grocery/listallselected';
 import { SettingsPage } from '../pages/settings/settings';
-import { SettingsEditGroceryItemsPage } from '../pages/settings/settingseditgroceryitems';
-import { SettingsEditGroceryItemPage } from '../pages/settings/settingseditgroceryitem';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -30,10 +30,10 @@ export const firebaseConfig = {
   declarations: [
     MyApp,
     GroceryPage,
-    AddNewGroceryItemPage,
+    GroceryAddItemPage,
+    GroceryEditItemPage,
+    ListAllSelectedPage,
     SettingsPage,
-    SettingsEditGroceryItemsPage,
-    SettingsEditGroceryItemPage,
     HomePage,
     TabsPage
   ],
@@ -47,10 +47,10 @@ export const firebaseConfig = {
   entryComponents: [
     MyApp,
     GroceryPage,
-    AddNewGroceryItemPage,
+    GroceryAddItemPage,
+    GroceryEditItemPage,
+    ListAllSelectedPage,
     SettingsPage,
-    SettingsEditGroceryItemsPage,
-    SettingsEditGroceryItemPage,
     HomePage,
     TabsPage
   ],

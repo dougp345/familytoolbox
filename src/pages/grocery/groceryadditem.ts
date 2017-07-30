@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, NavParams, ViewController, ToastController, AlertController } from 'ionic-angular';
-
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { NavParams, ViewController, ToastController } from 'ionic-angular';
 
 @Component({
   selector: 'page-groceryadditem',
   templateUrl: 'groceryadditem.html'
 })
-export class AddNewGroceryItemPage {
+export class GroceryAddItemPage {
   newItem: string;
   itemInput: string;
   sectionInput: string;

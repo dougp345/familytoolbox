@@ -4,9 +4,9 @@ import { NavController, NavParams, AlertController, ToastController } from 'ioni
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 @Component({
-  templateUrl: 'settingseditgroceryitem.html'
+  templateUrl: 'groceryedititem.html'
 })
-export class SettingsEditGroceryItemPage {
+export class GroceryEditItemPage {
   fbGroceryItems: FirebaseListObservable<any>;
   allGroceryItems: Object[] = [];
   itemInput: string;

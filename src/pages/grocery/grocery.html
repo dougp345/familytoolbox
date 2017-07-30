@@ -2,15 +2,12 @@
   <ion-navbar>
     <table width="100%">
       <tr>
-        <td width="33%" align="center"><ion-badge color="purple">{{this.remainingItems}}</ion-badge></td>
+        <td width="33%" align="center"><button ion-button small color="purple" (click)="listAllSelected()">{{this.remainingItems}}</button></td>
         <td width="33%" align="center"><strong>Grocery</strong></td>
         <td width="33%" align="center"><button ion-button small color="danger" (click)="clearItems()"><strong>X</strong></button></td>
       </tr>
     </table>
   </ion-navbar>
-</ion-header>
-
-<ion-content padding>
   <div>
     <ion-segment [(ngModel)]="section">
       <ion-segment-button value="add">+</ion-segment-button>
@@ -21,13 +18,24 @@
       <ion-segment-button value="misc">Misc</ion-segment-button>
     </ion-segment>
   </div>
-
   <div [ngSwitch]="section">
     <div *ngSwitchCase="'add'">
       <ion-searchbar (ionInput)="getGroceryItems($event)"></ion-searchbar>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content padding>
+  <div [ngSwitch]="section">
+    <div *ngSwitchCase="'add'">
       <ion-list>
-        <ion-item *ngFor="let item of addGroceryItemsView" (click)="addItemToList(item)">
-          {{ item.item }}
+        <ion-item *ngFor="let item of addGroceryItemsView">
+          <table width="100%">
+            <tr>
+              <td width="10%" *ngIf="item.item != '+ Add New'"><ion-icon name="ios-settings-outline" (click)="editGroceryItem(item)"></ion-icon></td>
+              <td width="90%"(click)="addItemToList(item)">{{ item.item }}</td>
+            </tr>
+          </table>
         </ion-item>
       </ion-list>
     </div>
