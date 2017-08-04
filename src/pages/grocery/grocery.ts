@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, AlertController, ToastController } from 'ionic-angular';
+import { NavController, MenuController, ModalController, AlertController, ToastController } from 'ionic-angular';
 
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 import { GroceryAddItemPage } from './groceryadditem';
 import { GroceryEditItemPage } from './groceryedititem';
 import { ListAllSelectedPage } from './listallselected';
+import { DinnersPage } from './dinners';
 
 @Component({
   selector: 'page-grocery',
@@ -15,7 +16,6 @@ export class GroceryPage {
   section: string;
   remainingItems: number;
   fbGroceryItems: FirebaseListObservable<any>;
-  fbSelectedGroceryItems: FirebaseListObservable<any>;
   allGroceryItemsView: Object[] = [];
   selectedGroceryItems: Object[] = [];
   addGroceryItemsView: Object[] = [];
@@ -25,35 +25,34 @@ export class GroceryPage {
   coldGroceryItemsView: Object[] = [];
   miscGroceryItemsView: Object[] = [];
 
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController, af: AngularFireDatabase) {
+  constructor(public navCtrl: NavController, menu: MenuController, public modalCtrl: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController, af: AngularFireDatabase) {
+    menu.enable(true);
     this.section = "add";
-    this.fbGroceryItems = af.list('/allgroceryitems');
-    af.list('/allgroceryitems').subscribe(aGroceryItems => {
+    this.fbGroceryItems = af.list('/groceryitems');
+    af.list('/groceryitems').subscribe(aGroceryItems => {
       this.allGroceryItemsView = [];
-      aGroceryItems.forEach(groceryItem => {
-        this.allGroceryItemsView.push(groceryItem);
-      });
-      this.filterGroceryItems();
-    });
-    this.fbSelectedGroceryItems = af.list('/selectedgroceryitems');
-    af.list('/selectedgroceryitems').subscribe(sGroceryItems => {
       this.selectedGroceryItems = [];
       this.produceGroceryItemsView = [];
       this.centerGroceryItemsView = [];
       this.meatsGroceryItemsView = [];
       this.coldGroceryItemsView = [];
       this.miscGroceryItemsView = [];
-      sGroceryItems.forEach(groceryItem => {
-        this.selectedGroceryItems.push(groceryItem);
-        if (groceryItem.section == "produce") {
+      aGroceryItems.forEach(groceryItem => {
+        this.allGroceryItemsView.push(groceryItem);
+        if (groceryItem.section == "produce" && groceryItem.qtySelected > 0) {
+          this.selectedGroceryItems.push(groceryItem);
           this.produceGroceryItemsView.push(groceryItem);
-        } else if (groceryItem.section == "center") {
+        } else if (groceryItem.section == "center" && groceryItem.qtySelected > 0) {
+          this.selectedGroceryItems.push(groceryItem);
           this.centerGroceryItemsView.push(groceryItem);
-        } else if (groceryItem.section == "meats") {
+        } else if (groceryItem.section == "meats" && groceryItem.qtySelected > 0) {
+          this.selectedGroceryItems.push(groceryItem);
           this.meatsGroceryItemsView.push(groceryItem);
-        } else if (groceryItem.section == "cold") {
+        } else if (groceryItem.section == "cold" && groceryItem.qtySelected > 0) {
+          this.selectedGroceryItems.push(groceryItem);
           this.coldGroceryItemsView.push(groceryItem);
-        } else if (groceryItem.section == "misc") {
+        } else if (groceryItem.section == "misc" && groceryItem.qtySelected > 0) {
+          this.selectedGroceryItems.push(groceryItem);
           this.miscGroceryItemsView.push(groceryItem);
         }
       });
@@ -89,11 +88,6 @@ export class GroceryPage {
     for (var i = 0; i < this.allGroceryItemsView.length; i++) {
       this.addGroceryItemsView.push(this.allGroceryItemsView[i]);
     }
-    // this.addGroceryItemsView = this.subtractArray(this.addGroceryItemsView, this.produceGroceryItemsView);
-    // this.addGroceryItemsView = this.subtractArray(this.addGroceryItemsView, this.centerGroceryItemsView);
-    // this.addGroceryItemsView = this.subtractArray(this.addGroceryItemsView, this.meatsGroceryItemsView);
-    // this.addGroceryItemsView = this.subtractArray(this.addGroceryItemsView, this.coldGroceryItemsView);
-    // this.addGroceryItemsView = this.subtractArray(this.addGroceryItemsView, this.miscGroceryItemsView);
     this.addGroceryItemsView.sort(this.sortArrayByItem);
   }
 
@@ -101,7 +95,7 @@ export class GroceryPage {
     if (selectedItem.item == "+ Add New") {
       this.addNewGroceryItem(selectedItem.section);
     } else {
-      this.fbSelectedGroceryItems.push({item: selectedItem.item, section: selectedItem.section, aisle: selectedItem.aisle, checked: true, color: ""})
+      this.fbGroceryItems.update(selectedItem.$key, {qtySelected: ++selectedItem.qtySelected, checked: true, color: ""})
       let toast = this.toastCtrl.create({
         message: 'Selected: ' + selectedItem.item,
         duration: 1500
@@ -116,8 +110,9 @@ export class GroceryPage {
     let modal = this.modalCtrl.create(GroceryAddItemPage, {item: newItem});
     modal.onDidDismiss(data => {
       if (data) {
-        this.fbGroceryItems.push({item: data.item, section: data.section, aisle: data.aisle});
-        this.addItemToList({item: data.item, section: data.section, aisle: data.aisle});
+        this.fbGroceryItems.push({item: data.item, section: data.section, aisle: data.aisle, qtySelected: 0, checked: true, color: ""});
+// update me !!!!!!
+        // this.addItemToList({item: data.item, section: data.section, aisle: data.aisle});
       }
     });
     modal.present();
@@ -135,7 +130,7 @@ export class GroceryPage {
     } else {
       item.color = "light";
     }
-    this.fbSelectedGroceryItems.update(item.$key, {color: item.color, checked: item.checked});
+    this.fbGroceryItems.update(item.$key, {color: item.color, checked: item.checked});
     this.countRemainingItems();
   }
 
@@ -144,27 +139,27 @@ export class GroceryPage {
     let i: number;
     for(i = 0; i < this.produceGroceryItemsView.length; i++) {
       if ((this.produceGroceryItemsView[i] as any).checked) {
-        this.remainingItems += 1;
+        this.remainingItems += (this.produceGroceryItemsView[i] as any).qtySelected;
       }
     }
     for(i = 0; i < this.centerGroceryItemsView.length; i++) {
       if ((this.centerGroceryItemsView[i] as any).checked) {
-        this.remainingItems += 1;
+        this.remainingItems += (this.centerGroceryItemsView[i] as any).qtySelected;
       }
     }
     for(i = 0; i < this.meatsGroceryItemsView.length; i++) {
       if ((this.meatsGroceryItemsView[i] as any).checked) {
-        this.remainingItems += 1;
+        this.remainingItems += (this.meatsGroceryItemsView[i] as any).qtySelected;
       }
     }
     for(i = 0; i < this.coldGroceryItemsView.length; i++) {
       if ((this.coldGroceryItemsView[i] as any).checked) {
-        this.remainingItems += 1;
+        this.remainingItems += (this.coldGroceryItemsView[i] as any).qtySelected;
       }
     }
     for(i = 0; i < this.miscGroceryItemsView.length; i++) {
       if ((this.miscGroceryItemsView[i] as any).checked) {
-        this.remainingItems += 1;
+        this.remainingItems += (this.miscGroceryItemsView[i] as any).qtySelected;
       }
     }
   }
@@ -176,6 +171,7 @@ export class GroceryPage {
       buttons: [
         { text: 'All', handler: data => {this.clearAll();} },
         { text: 'Checked', handler: data => {this.clearChecked();} },
+        { text: 'Dinners', handler: data => {this.goDinnersPage();} },
         { text: 'Cancel', handler: data => {console.log('Cancel clicked');} }
       ]
     });
@@ -183,7 +179,13 @@ export class GroceryPage {
   }
 
   clearAll() {
-    this.fbSelectedGroceryItems.remove();
+    let updateKeys = [];
+    for (var i = 0; i < this.selectedGroceryItems.length; i++) {
+      updateKeys.push((this.selectedGroceryItems[i] as any).$key);
+    }
+    for (var j = 0; j < updateKeys.length; j++) {
+      this.fbGroceryItems.update(updateKeys[j], {qtySelected: 0, checked: true, color: ""});
+    }
     let toast = this.toastCtrl.create({
       message: 'All Selected Items Cleared',
       duration: 3000
@@ -192,14 +194,14 @@ export class GroceryPage {
   }
 
   clearChecked() {
-    let deleteKeys = [];
+    let updateKeys = [];
     for (var i = 0; i < this.selectedGroceryItems.length; i++) {
       if ((this.selectedGroceryItems[i] as any).checked == false) {
-        deleteKeys.push((this.selectedGroceryItems[i] as any).$key);
+        updateKeys.push((this.selectedGroceryItems[i] as any).$key);
       }
     }
-    for (var j = 0; j < deleteKeys.length; j++) {
-        this.fbSelectedGroceryItems.remove(deleteKeys[j]);
+    for (var j = 0; j < updateKeys.length; j++) {
+      this.fbGroceryItems.update(updateKeys[j], {qtySelected: 0, checked: true, color: ""});
     }
     let toast = this.toastCtrl.create({
       message: 'All Checked Items Cleared',
@@ -208,18 +210,9 @@ export class GroceryPage {
     toast.present();
   }
 
-  // subtractArray(a, b) {
-  //   for (var i = 0; i < a.length; i++) {
-  //     var ai = a[i];
-  //     for (var j = 0; j < b.length; j++) {
-  //       var bj = b[j];
-  //       if (ai.item == bj.item && ai.section == bj.section) {
-  //         a.splice(i, 1);
-  //       }
-  //     }
-  //   }
-  //   return a;
-  // };
+  goDinnersPage() {
+    this.navCtrl.push(DinnersPage, this.allGroceryItemsView);
+  }
 
   sortArrayByItem(a,b) {
     if (a.item.toLowerCase() < b.item.toLowerCase())

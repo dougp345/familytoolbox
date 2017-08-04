@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      All Selected
+      Remaining Selected
     </ion-title>
-    <ion-buttons start>
+    <ion-buttons end>
       <button ion-button (click)="dismiss()">
-        <span ion-text color="primary">Cancel</span>
+        <span ion-text color="primary">Close</span>
       </button>
     </ion-buttons>
   </ion-toolbar>
@@ -17,35 +17,50 @@
       Produce
     </ion-list-header>
     <ion-item *ngFor="let item of produceGroceryItemsView">
-      <ion-label>{{item.item}}</ion-label>
+      <ion-row>
+        <ion-col col-6>{{item.item}}</ion-col>
+        <ion-col col-6 align="right">{{item.qtySelected}}</ion-col>
+      </ion-row>
     </ion-item>
     <br><br>
     <ion-list-header color="purple">
       Center
     </ion-list-header>
     <ion-item *ngFor="let item of centerGroceryItemsView">
-      <ion-label>{{item.item}}</ion-label>
+      <ion-row>
+        <ion-col col-6>{{item.item}}</ion-col>
+        <ion-col col-6 align="right">{{item.qtySelected}}</ion-col>
+      </ion-row>
     </ion-item>
     <br><br>
     <ion-list-header color="purple">
       Meats
     </ion-list-header>
     <ion-item *ngFor="let item of meatsGroceryItemsView">
-      <ion-label>{{item.item}}</ion-label>
+      <ion-row>
+        <ion-col col-6>{{item.item}}</ion-col>
+        <ion-col col-6 align="right">{{item.qtySelected}}</ion-col>
+      </ion-row>
     </ion-item>
     <br><br>
     <ion-list-header color="purple">
       Cold
     </ion-list-header>
     <ion-item *ngFor="let item of coldGroceryItemsView">
-      <ion-label>{{item.item}}</ion-label>
+      <ion-row>
+        <ion-col col-6>{{item.item}}</ion-col>
+        <ion-col col-6 align="right">{{item.qtySelected}}</ion-col>
+      </ion-row>
     </ion-item>
     <br><br>
     <ion-list-header color="purple">
       Misc
     </ion-list-header>
     <ion-item *ngFor="let item of miscGroceryItemsView">
-      <ion-label>{{item.item}}</ion-label>
+      <ion-row>
+        <ion-col col-6>{{item.item}}</ion-col>
+        <ion-col col-6 align="right">{{item.qtySelected}}</ion-col>
+      </ion-row>
     </ion-item>
   </ion-list>
 </ion-content>

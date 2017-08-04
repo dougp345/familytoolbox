@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      {{pageTitle}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <button ion-button (click)="store()">Upload</button> -->
+  <button ion-button (click)="display('gb.jpg')">Display</button>
+  <img src="{{imgsource}}">
+  <br>
+  <br>
+  <button ion-button block color="primary" (click)="saveDinner()">Save</button>
+  <br>
+  <button ion-button block color="danger" (click)="goBack()">Cancel</button>
+</ion-content>

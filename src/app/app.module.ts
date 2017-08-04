@@ -7,6 +7,8 @@ import { GroceryPage } from '../pages/grocery/grocery';
 import { GroceryAddItemPage } from '../pages/grocery/groceryadditem';
 import { GroceryEditItemPage } from '../pages/grocery/groceryedititem';
 import { ListAllSelectedPage } from '../pages/grocery/listallselected';
+import { DinnersPage } from '../pages/grocery/dinners';
+import { DinnerEditPage } from '../pages/grocery/dinneredit';
 import { SettingsPage } from '../pages/settings/settings';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -33,6 +35,8 @@ export const firebaseConfig = {
     GroceryAddItemPage,
     GroceryEditItemPage,
     ListAllSelectedPage,
+    DinnersPage,
+    DinnerEditPage,
     SettingsPage,
     HomePage,
     TabsPage
@@ -50,6 +54,8 @@ export const firebaseConfig = {
     GroceryAddItemPage,
     GroceryEditItemPage,
     ListAllSelectedPage,
+    DinnersPage,
+    DinnerEditPage,
     SettingsPage,
     HomePage,
     TabsPage
