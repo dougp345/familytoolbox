@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Dinners
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addDinner()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="card-background-page">
+  <ion-card *ngFor="let card of dinnerCardsView">
+      <img src={{card.imgSource}}/>
+      <div class="card-title">{{card.item}}</div>
+    </ion-card>
+</ion-content>
