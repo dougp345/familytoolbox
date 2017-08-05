@@ -12,8 +12,8 @@
 </ion-header>
 
 <ion-content class="card-background-page">
-  <ion-card *ngFor="let card of dinnerCardsView">
-      <img src={{card.imgSource}}/>
-      <div class="card-title">{{card.item}}</div>
-    </ion-card>
+  <ion-card *ngFor="let card of dinnerCardsView" (click)="editDinner(card)">
+    <img src={{card.imgSource}}/>
+    <div class="card-title">{{card.name}}</div>
+  </ion-card>
 </ion-content>

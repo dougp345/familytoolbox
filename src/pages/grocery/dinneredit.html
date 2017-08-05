@@ -7,12 +7,24 @@
 </ion-header>
 
 <ion-content>
-  <!-- <button ion-button (click)="store()">Upload</button> -->
-  <button ion-button (click)="display('gb.jpg')">Display</button>
-  <img src="{{imgsource}}">
-  <br>
-  <br>
+  <ion-list>
+    <ion-item>
+      <ion-label fixed>Name</ion-label>
+      <ion-input type="text" [(ngModel)]="dinnerName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Grocery Items</ion-label>
+      <ion-select [(ngModel)]="dinnerGroceryItems" multiple="true" cancelText="Cancel" okText="Ok">
+        <ion-option *ngFor="let item of dinnerGroceryItemsView" value="{{item.$key}}">{{item.item}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Image</ion-label>
+    </ion-item>
+  </ion-list>
   <button ion-button block color="primary" (click)="saveDinner()">Save</button>
+  <br>
+  <button ion-button block color="secondary" (click)="addItemsToList()">Add Dinner Items to Grocery List</button>
   <br>
   <button ion-button block color="danger" (click)="goBack()">Cancel</button>
 </ion-content>

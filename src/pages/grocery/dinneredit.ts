@@ -1,5 +1,5 @@
-import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import firebase from 'firebase';
@@ -8,37 +8,36 @@ import firebase from 'firebase';
   templateUrl: 'dinneredit.html'
 })
 export class DinnerEditPage {
-  allGroceryItems: Object[] = [];
   dinnerItem: {};
   pageTitle: string = "";
   dinnerName: string = "";
   dinnerImage: string = "";
   dinnerGroceryItems: string[] = [];
   dinnerGroceryItemsView: Object[] = [];
+  addItemsGroceryItemsView: Object[] = [];
   fbGroceryDinners: FirebaseListObservable<any>;
+  fbGroceryItems: FirebaseListObservable<any>;
   firestore = firebase.storage();
   imgsource: any;
 
-  constructor(public navCtrl: NavController, public params: NavParams, af: AngularFireDatabase, public zone: NgZone) {
-    this.fbGroceryDinners = af.list('/grocerydinners');
-    this.allGroceryItems = this.params.get("groceryItems");
+  constructor(public navCtrl: NavController, public params: NavParams, public alertCtrl: AlertController, public toastCtrl: ToastController, af: AngularFireDatabase) {
     this.dinnerItem = this.params.get("dinnerItem");
+    this.fbGroceryDinners = af.list('/grocerydinners');
+    this.fbGroceryItems = af.list('/groceryitems');
     if (this.dinnerItem) {
       this.pageTitle = "Edit Dinner";
       this.dinnerName = (this.dinnerItem as any).name;
       this.dinnerImage = (this.dinnerItem as any).image;
       this.dinnerGroceryItems = (this.dinnerItem as any).groceryItems;
-      for (var i = 0; i < this.dinnerGroceryItems.length; i++) {
-        for (var j = 0; j < this.allGroceryItems.length; j++) {
-          if ((this.dinnerGroceryItems[i] as any).$key == (this.allGroceryItems[j] as any).$key) {
-            this.dinnerGroceryItemsView.push(this.allGroceryItems[j]);
-            break;
-          }
-        }
-      }
     } else {
       this.pageTitle = "Add Dinner";
     }
+    af.list('/groceryitems').subscribe(aGroceryItems => {
+      aGroceryItems.forEach(groceryItem => {
+        this.dinnerGroceryItemsView.push(groceryItem);
+      });
+      this.dinnerGroceryItemsView.sort(this.sortArrayByItem);
+    });
   }
 
   // store() {
@@ -76,21 +75,76 @@ export class DinnerEditPage {
 
   display(filename) {
     this.firestore.ref().child(filename).getDownloadURL().then((url) => {
-      this.zone.run(() => {
-        this.imgsource = url;
-       })
+      this.imgsource = url;
     })
   }
 
   saveDinner() {
-    if ((this.dinnerItem as any).$key) {
-      this.fbGroceryDinners.update((this.dinnerItem as any).$key, {name: this.dinnerName, image: this.dinnerImage, groceryItems: this.dinnerGroceryItems});
-    } else {
-      this.fbGroceryDinners.push({name: this.dinnerName, image: this.dinnerImage, groceryItems: this.dinnerGroceryItems});
+    if (!this.dinnerImage) {
+      this.dinnerImage = "default.jpg";
     }
+    if (this.dinnerItem) {
+      this.fbGroceryDinners.update((this.dinnerItem as any).$key, {name: this.dinnerName, image: this.dinnerImage, groceryItems: this.dinnerGroceryItems}).then(() => this.goBack());
+    } else {
+      this.fbGroceryDinners.push({name: this.dinnerName, image: this.dinnerImage, groceryItems: this.dinnerGroceryItems}).then(() => this.goBack());
+    }
+  }
+
+  addItemsToList() {
+    var itemsToUpdate: Object[] = [];
+    this.addItemsGroceryItemsView = [];
+    for (var i = 0; i < this.dinnerGroceryItems.length; i++) {
+      for (var j = 0; j < this.dinnerGroceryItemsView.length; j++) {
+        if (this.dinnerGroceryItems[i] == (this.dinnerGroceryItemsView[j] as any).$key) {
+          this.addItemsGroceryItemsView.push(this.dinnerGroceryItemsView[j]);
+          break;
+        }
+      }
+    }
+    let alert = this.alertCtrl.create();
+    alert.setTitle('Which items to add to Grocery list?');
+    for (var a = 0; a < this.addItemsGroceryItemsView.length; a++) {
+      alert.addInput({
+        type: 'checkbox',
+        label: (this.addItemsGroceryItemsView[a] as any).item + " (" + (this.addItemsGroceryItemsView[a] as any).qtySelected + ")",
+        value: (this.addItemsGroceryItemsView[a] as any).$key,
+        checked: true
+      });
+    }
+    alert.addButton('Cancel');
+    alert.addButton({
+      text: 'Add',
+      handler: data => {
+        for (var y = 0; y < data.length; y++) {
+          for (var z = 0; z < this.addItemsGroceryItemsView.length; z++) {
+            if (data[y] == (this.addItemsGroceryItemsView[z] as any).$key) {
+              itemsToUpdate.push(this.addItemsGroceryItemsView[z]);
+            }
+          }
+        }
+        for (var x = 0; x < itemsToUpdate.length; x++) {
+          this.fbGroceryItems.update((itemsToUpdate[x] as any).$key, {qtySelected: ++(itemsToUpdate[x] as any).qtySelected, checked: true, color: ""})
+        }
+        let toast = this.toastCtrl.create({
+          message: itemsToUpdate.length + ' items added to Grocery list',
+          duration: 1500
+        });
+        toast.present();
+        this.goBack();
+      }
+    });
+    alert.present();
   }
 
   goBack() {
     this.navCtrl.pop();
+  }
+
+  sortArrayByItem(a,b) {
+    if (a.item.toLowerCase() < b.item.toLowerCase())
+      return -1;
+    if (a.item.toLowerCase() > b.item.toLowerCase())
+      return 1;
+    return 0;
   }
 }
