@@ -211,7 +211,7 @@ export class GroceryPage {
   }
 
   goDinnersPage() {
-    this.navCtrl.push(DinnersPage, this.allGroceryItemsView);
+    this.navCtrl.push(DinnersPage);
   }
 
   sortArrayByItem(a,b) {
