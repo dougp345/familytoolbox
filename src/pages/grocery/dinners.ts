@@ -19,6 +19,7 @@ export class DinnersPage {
   constructor(public navCtrl: NavController, af: AngularFireDatabase) {
     this.fbGroceryDinners = af.list('/grocerydinners');
     af.list('/grocerydinners').subscribe(aGroceryDinners => {
+      this.dinnerCardsView = [];
       this.allGroceryDinnersView = [];
       aGroceryDinners.forEach(groceryDinner => {
         this.allGroceryDinnersView.push(groceryDinner);
@@ -28,6 +29,7 @@ export class DinnersPage {
         (this.allGroceryDinnersView[i] as any).imgSource = "https://firebasestorage.googleapis.com/v0/b/familytoolbox-57e73.appspot.com/o/default.jpg?alt=media&token=0d687365-5d52-4270-b11c-cc1cb99d0b46";
         this.dinnerCardsView.push(this.allGroceryDinnersView[i]);
       }
+      this.dinnerCardsView.sort(this.sortArrayByName);
     });
   }
 
@@ -45,4 +47,11 @@ export class DinnersPage {
       .catch(() => { return "https://firebasestorage.googleapis.com/v0/b/familytoolbox-57e73.appspot.com/o/default.jpg?alt=media&token=0d687365-5d52-4270-b11c-cc1cb99d0b46"; });
   }
 
+  sortArrayByName(a,b) {
+    if (a.name.toLowerCase() < b.name.toLowerCase())
+      return -1;
+    if (a.name.toLowerCase() > b.name.toLowerCase())
+      return 1;
+    return 0;
+  }
 }

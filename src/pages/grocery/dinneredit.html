@@ -24,7 +24,7 @@
   </ion-list>
   <button ion-button block color="primary" (click)="saveDinner()">Save</button>
   <br>
-  <button ion-button block color="secondary" (click)="addItemsToList()">Add Dinner Items to Grocery List</button>
-  <br>
+  <button ion-button block color="secondary" (click)="addItemsToList()" *ngIf="pageTitle == 'Edit Dinner'">Add Dinner Items to Grocery List</button>
+  <br *ngIf="pageTitle == 'Edit Dinner'">
   <button ion-button block color="danger" (click)="goBack()">Cancel</button>
 </ion-content>
