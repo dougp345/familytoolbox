@@ -19,7 +19,7 @@ export class GroceryEditItemPage {
     this.itemInput = params.get('item');
     this.sectionInput = params.get('section');
     this.aisleInput = params.get('aisle');
-    this.fbGroceryItems = af.list('/allgroceryitems');
+    this.fbGroceryItems = af.list('/groceryitems');
   }
 
   save() {
