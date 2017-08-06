@@ -52,14 +52,10 @@
   <div [ngSwitch]="section">
     <div *ngSwitchCase="'add'">
       <ion-list>
-        <ion-item *ngFor="let item of addGroceryItemsView">
-          <table width="100%">
-            <tr>
-              <td width="10%" *ngIf="item.item != '+ Add New'"><ion-icon name="ios-settings-outline" (click)="editGroceryItem(item)"></ion-icon></td>
-              <td width="90%"(click)="addItemToList(item)">{{ item.item }}</td>
-            </tr>
-          </table>
-        </ion-item>
+        <button ion-item *ngFor="let item of addGroceryItemsView" (click)="addItemToList(item)">
+          <ion-icon *ngIf="item.item != '+ Add New'" item-start name="ios-settings-outline" (click)="editGroceryItem(item)"></ion-icon>
+          {{ item.item }}
+        </button>
       </ion-list>
     </div>
     <div *ngSwitchCase="'produce'">
