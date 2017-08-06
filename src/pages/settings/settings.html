@@ -4,23 +4,33 @@
       Settings
     </ion-title>
   </ion-navbar>
+  <div>
+    <ion-segment [(ngModel)]="settingsSection">
+      <ion-segment-button value="calendar">Calendar</ion-segment-button>
+      <ion-segment-button value="grocery">Grocery</ion-segment-button>
+    </ion-segment>
+  </div>
 </ion-header>
 
 <ion-content padding>
-  <ion-card>
-    <ion-card-header>
-      Calendar
-    </ion-card-header>
-    <ion-card-content>
-      Coming Soon
-    </ion-card-content>
-  </ion-card>
-  <ion-card>
-    <ion-card-header>
-      Grocery
-    </ion-card-header>
-    <ion-card-content>
-      Coming Soon
-    </ion-card-content>
-  </ion-card>
+  <div [ngSwitch]="settingsSection">
+    <div *ngSwitchCase="'calendar'">
+      <table width="100%">
+        <tr>
+          <td>CATEGORIES</td>
+          <td align="right"><button ion-button small color="purple" (click)="addNewCalendarCategory()"><ion-icon name="add"></ion-icon></button></td>
+        </tr>
+      </table>
+      <ion-list>
+        <!-- <button ion-item *ngFor="let category of allCalendarCategories" (click)="editCategory(category)"> -->
+        <button ion-item *ngFor="let category of allCalendarCategories">
+          <ion-icon name="calendar" color="{{category.color}}"></ion-icon>
+          {{ category.category }}
+        </button>
+      </ion-list>
+    </div>
+    <div *ngSwitchCase="'grocery'">
+      TBD
+    </div>
+  </div>
 </ion-content>

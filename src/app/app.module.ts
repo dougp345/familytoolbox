@@ -10,7 +10,8 @@ import { ListAllSelectedPage } from '../pages/grocery/listallselected';
 import { DinnersPage } from '../pages/grocery/dinners';
 import { DinnerEditPage } from '../pages/grocery/dinneredit';
 import { SettingsPage } from '../pages/settings/settings';
-import { HomePage } from '../pages/home/home';
+import { CalendarPage } from '../pages/calendar/calendar';
+import { CalendarAddCategoryPage } from '../pages/settings/calendaraddcategory';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -38,7 +39,8 @@ export const firebaseConfig = {
     DinnersPage,
     DinnerEditPage,
     SettingsPage,
-    HomePage,
+    CalendarPage,
+    CalendarAddCategoryPage,
     TabsPage
   ],
   imports: [
@@ -57,7 +59,8 @@ export const firebaseConfig = {
     DinnersPage,
     DinnerEditPage,
     SettingsPage,
-    HomePage,
+    CalendarPage,
+    CalendarAddCategoryPage,
     TabsPage
   ],
   providers: [
