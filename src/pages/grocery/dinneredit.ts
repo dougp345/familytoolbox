@@ -106,7 +106,7 @@ export class DinnerEditPage {
     for (var a = 0; a < this.addItemsGroceryItemsView.length; a++) {
       alert.addInput({
         type: 'checkbox',
-        label: (this.addItemsGroceryItemsView[a] as any).item + " (" + (this.addItemsGroceryItemsView[a] as any).qtySelected + ")",
+        label: "(" + (this.addItemsGroceryItemsView[a] as any).qtySelected + ") " + (this.addItemsGroceryItemsView[a] as any).item,
         value: (this.addItemsGroceryItemsView[a] as any).$key,
         checked: true
       });

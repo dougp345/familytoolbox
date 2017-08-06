@@ -2,7 +2,7 @@
   <ion-navbar>
     <table width="100%">
       <tr>
-        <td width="33%" align="center"><button ion-button small color="danger" (click)="clearItems()"><strong><ion-icon name="menu"></ion-icon></strong></button></td>
+        <td width="33%" align="center"></td>
         <td width="33%" align="center"><strong>Grocery</strong></td>
         <td width="33%" align="center"><button ion-button small color="purple" (click)="listAllSelected()">{{this.remainingItems}}</button></td>
       </tr>
@@ -40,6 +40,15 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-fab left bottom #fab>
+    <button ion-fab mini color="secondary"><ion-icon name="menu"></ion-icon></button>
+    <ion-fab-list side="right">
+      <button ion-fab color="primary" (click)="addNewGroceryItemFab(fab)"><ion-icon name="ice-cream"></ion-icon></button>
+      <button ion-fab color="purple" (click)="goDinnersPage(fab)"><ion-icon name="restaurant"></ion-icon></button>
+      <button ion-fab color="orange" (click)="clearItems('checked', fab)"><ion-icon name="close-circle"></ion-icon></button>
+      <button ion-fab color="danger" (click)="clearItems('all', fab)"><ion-icon name="remove-circle"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
   <div [ngSwitch]="section">
     <div *ngSwitchCase="'add'">
       <ion-list>
