@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, MenuController, ModalController, AlertController, ToastController } from 'ionic-angular';
+import { NavController, MenuController, ModalController, AlertController, ToastController, FabContainer } from 'ionic-angular';
 
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
@@ -106,6 +106,11 @@ export class GroceryPage {
     this.countRemainingItems();
   }
 
+  addNewGroceryItemFab(fab: FabContainer) {
+    fab.close();
+    this.addNewGroceryItem("");
+  }
+
   addNewGroceryItem(newItem) {
     let modal = this.modalCtrl.create(GroceryAddItemPage, {item: newItem});
     modal.onDidDismiss(data => {
@@ -164,14 +169,27 @@ export class GroceryPage {
     }
   }
 
-  clearItems() {
+  clearItems(clearType: string, fab: FabContainer) {
+    fab.close();
+    let message: string = "";
+    if (clearType == "all") {
+      message = "Clear ALL selected items?";
+    } else {
+      message = "Clear checked selected items?";
+    }
     let prompt = this.alertCtrl.create({
       title: 'Alert',
-      message: "Which selected items would you like to clear?",
+      message: message,
       buttons: [
-        { text: 'All', handler: data => {this.clearAll();} },
-        { text: 'Checked', handler: data => {this.clearChecked();} },
-        { text: 'Dinners', handler: data => {this.goDinnersPage();} },
+        { text: 'Yes', handler: data =>
+          {
+            if (clearType == "all") {
+              this.clearAll();
+            } else {
+              this.clearChecked();
+            }
+          }
+        },
         { text: 'Cancel', handler: data => {console.log('Cancel clicked');} }
       ]
     });
@@ -210,7 +228,8 @@ export class GroceryPage {
     toast.present();
   }
 
-  goDinnersPage() {
+  goDinnersPage(fab: FabContainer) {
+    fab.close();
     this.navCtrl.push(DinnersPage);
   }
 
