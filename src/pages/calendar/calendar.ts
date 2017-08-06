@@ -1,21 +1,34 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+
 import * as moment from 'moment';
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: 'page-calendar',
+  templateUrl: 'calendar.html'
 })
 
-export class HomePage {
+export class CalendarPage {
   selectedMonth: any;
   currentMonthYearDisplay: string;
   gridPosition: object = {};
   dayContent: object = {};
+  monthDayPosition: object = {};
+  fbCalendarCategories: FirebaseListObservable<any>;
+  allCalendarCategories: object = {};
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, af: AngularFireDatabase) {
     this.selectedMonth = moment().startOf('month');;
     this.goMonth(this.selectedMonth.format('MM'), this.selectedMonth.format('YYYY'));
+    this.fbCalendarCategories = af.list('/calendarcategories');
+    af.list('/calendarcategories').subscribe(aCalendarCategories => {
+      this.allCalendarCategories = [];
+      aCalendarCategories.forEach(calendarCategory => {
+        this.allCalendarCategories[calendarCategory.$key] = calendarCategory.color;
+      });
+    });
   }
 
   goMonth(month: string, year: string) {
@@ -39,10 +52,8 @@ export class HomePage {
     y = 0;
 
     while (currentDay <= daysInMonth) {
-      // Set day of the month
       this.gridPosition[x][y] = currentDay;
-      // Set day content
-      // ???
+      this.monthDayPosition[currentDay] = {x: x, y: y};
       currentDay += 1;
       x = ((x + 1) % 7);
       if (x == 0) {
@@ -50,6 +61,12 @@ export class HomePage {
       }
     }
 
+    this.getMonthEvents(month, year);
+  }
+
+  getMonthEvents(month: string, year: string) {
+    // Query firebase and get events for the month
+    // use this.monthDayPosition[day of the month] to get the x, y coordinates to populate in this.dayContent[x][y]
     this.dayContent[6][0] = [{content: "Some", color: "danger"}];
     this.dayContent[4][2] = [{content: "Wow", color: "primary"}, {content: "Dance", color: "secondary"}];
   }

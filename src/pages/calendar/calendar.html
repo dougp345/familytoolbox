@@ -1,31 +1,29 @@
 <ion-header>
-  <ion-grid>
-    <ion-row><ion-col col-12></ion-col></ion-row>
-    <ion-row><ion-col col-12></ion-col></ion-row>
-    <ion-row align-items-center>
-      <ion-col col-2></ion-col>
-      <ion-col col-2 align="right">
+  <br><br>
+  <table width="100%">
+    <tr>
+      <td width="15%" align="center"></td>
+      <td width="15%" align="right">
         <button ion-button small (click)="goPreviousMonth()">
-          <strong><</strong>
+          <ion-icon name="arrow-back"></ion-icon>
         </button>
-      </ion-col>
-      <ion-col col-4 align="center"><strong>{{currentMonthYearDisplay}}</strong></ion-col>
-      <ion-col col-2 align="left">
+      </td>
+      <td width="40%" align="center" style="vertical-align:middle"><strong>{{currentMonthYearDisplay}}</strong></td>
+      <td width="15%" align="left">
         <button ion-button small (click)="goNextMonth()">
-          <strong>></strong>
+          <ion-icon name="arrow-forward"></ion-icon>
         </button>
-      </ion-col>
-      <ion-col col-2 align="center">
+      </td>
+      <td width="15%" align="left">
         <button ion-button small color="purple">
-          <strong>+</strong>
+          <ion-icon name="add"></ion-icon>
         </button>
-      </ion-col>
-    </ion-row>
-</ion-grid>
-
+      </td>
+    </tr>
+  </table>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding class="no-scroll">
   <table width="100%" border="1" style="height: 100%;">
     <tr style="height: 4%;">
       <th width="14.28%">Sun</th>

@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Add Calendar Category
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary">Cancel</span>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label fixed>Category</ion-label>
+      <ion-input type="text" [(ngModel)]="categoryInput"></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-list radio-group [(ngModel)]="categoryColorInput">
+    <ion-list-header>
+      Color
+    </ion-list-header>
+    <ion-item>
+      <ion-label color="primary">Blue</ion-label>
+      <ion-radio checked="true" value="primary"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label color="secondary">Green</ion-label>
+      <ion-radio checked="false" value="secondary"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label color="danger">Red</ion-label>
+      <ion-radio checked="false" value="danger"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label color="purple">Purple</ion-label>
+      <ion-radio checked="false" value="purple"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label color="orange">Orange</ion-label>
+      <ion-radio checked="false" value="orange"></ion-radio>
+    </ion-item>
+  </ion-list>
+  <button ion-button block (click)="save()">Save</button>
+</ion-content>

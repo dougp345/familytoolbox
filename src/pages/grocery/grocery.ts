@@ -115,9 +115,7 @@ export class GroceryPage {
     let modal = this.modalCtrl.create(GroceryAddItemPage, {item: newItem});
     modal.onDidDismiss(data => {
       if (data) {
-        this.fbGroceryItems.push({item: data.item, section: data.section, aisle: data.aisle, qtySelected: 0, checked: true, color: ""});
-// update me !!!!!!
-        // this.addItemToList({item: data.item, section: data.section, aisle: data.aisle});
+        this.fbGroceryItems.push({item: data.item, section: data.section, aisle: data.aisle, qtySelected: 1, checked: true, color: ""});
       }
     });
     modal.present();
@@ -242,9 +240,9 @@ export class GroceryPage {
   }
 
   sortArrayByAisle(a,b) {
-    if (a.aisle < b.aisle)
+    if (Number(a.aisle) < Number(b.aisle))
       return -1;
-    if (a.aisle > b.aisle)
+    if (Number(a.aisle) > Number(b.aisle))
       return 1;
     return 0;
   }
