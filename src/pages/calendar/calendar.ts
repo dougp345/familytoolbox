@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController, FabContainer } from 'ionic-angular';
 
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 import * as moment from 'moment';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'page-calendar',
@@ -18,17 +19,34 @@ export class CalendarPage {
   monthDayPosition: object = {};
   fbCalendarCategories: FirebaseListObservable<any>;
   allCalendarCategories: object = {};
+  monthEvents: Object[] = [];
+  queryCriteria = new Subject();
 
-  constructor(public navCtrl: NavController, af: AngularFireDatabase) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public af: AngularFireDatabase) {
     this.selectedMonth = moment().startOf('month');;
-    this.goMonth(this.selectedMonth.format('MM'), this.selectedMonth.format('YYYY'));
     this.fbCalendarCategories = af.list('/calendarcategories');
-    af.list('/calendarcategories').subscribe(aCalendarCategories => {
+    this.af.list('/calendarcategories').subscribe(aCalendarCategories => {
       this.allCalendarCategories = [];
       aCalendarCategories.forEach(calendarCategory => {
         this.allCalendarCategories[calendarCategory.$key] = calendarCategory.color;
       });
     });
+
+    this.af.list('/calendarevents', {
+      query: {
+        orderByChild: 'yearMonth',
+        equalTo: this.queryCriteria
+      }
+    }).subscribe(queriedItems => {
+      this.monthEvents = queriedItems;
+console.log("Month Events (" + this.selectedMonth.format('YYYY') + this.selectedMonth.format('MM') + ") :");
+console.log(this.monthEvents);
+      // use this.monthDayPosition[day of the month] to get the x, y coordinates to populate in this.dayContent[x][y]
+      this.dayContent[6][0] = [{content: "Some", color: "danger"}];
+      this.dayContent[4][2] = [{content: "Wow", color: "primary"}, {content: "Dance", color: "secondary"}];
+    });
+
+    this.goMonth(this.selectedMonth.format('MM'), this.selectedMonth.format('YYYY'));
   }
 
   goMonth(month: string, year: string) {
@@ -65,10 +83,7 @@ export class CalendarPage {
   }
 
   getMonthEvents(month: string, year: string) {
-    // Query firebase and get events for the month
-    // use this.monthDayPosition[day of the month] to get the x, y coordinates to populate in this.dayContent[x][y]
-    this.dayContent[6][0] = [{content: "Some", color: "danger"}];
-    this.dayContent[4][2] = [{content: "Wow", color: "primary"}, {content: "Dance", color: "secondary"}];
+    this.queryCriteria.next(year + month);
   }
 
   goNextMonth() {
@@ -79,6 +94,27 @@ export class CalendarPage {
   goPreviousMonth() {
     this.selectedMonth = moment(this.selectedMonth).subtract(1, 'month');
     this.goMonth(this.selectedMonth.format('MM'), this.selectedMonth.format('YYYY'));
+  }
+
+  addEvent(fab: FabContainer) {
+    fab.close();
+    let prompt = this.alertCtrl.create({
+      title: "Event",
+      message: "Enter event details",
+      inputs: [ { name: "title", placeholder: "Title" },
+                { name: "category", placeholder: "Category" },
+                { name: "date", placeholder: "Date"} ],
+      buttons: [ { text: "Cancel", handler: data => { console.log("Cancel clicked"); } },
+                 { text: "Save", handler: data => {
+                   this.af.list('/calendarevents').push({
+                     title: data.title,
+                     category: data.category,
+                     yearMonth: data.date
+                   });
+                 }
+               } ]
+    });
+    prompt.present();
   }
 
 }

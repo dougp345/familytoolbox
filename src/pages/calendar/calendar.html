@@ -2,21 +2,15 @@
   <br><br>
   <table width="100%">
     <tr>
-      <td width="15%" align="center"></td>
-      <td width="15%" align="right">
+      <td width="30%" align="right">
         <button ion-button small (click)="goPreviousMonth()">
           <ion-icon name="arrow-back"></ion-icon>
         </button>
       </td>
       <td width="40%" align="center" style="vertical-align:middle"><strong>{{currentMonthYearDisplay}}</strong></td>
-      <td width="15%" align="left">
+      <td width="30%" align="left">
         <button ion-button small (click)="goNextMonth()">
           <ion-icon name="arrow-forward"></ion-icon>
-        </button>
-      </td>
-      <td width="15%" align="left">
-        <button ion-button small color="purple">
-          <ion-icon name="add"></ion-icon>
         </button>
       </td>
     </tr>
@@ -24,6 +18,13 @@
 </ion-header>
 
 <ion-content padding class="no-scroll">
+  <ion-fab right bottom #calfab>
+    <button ion-fab mini color="purple"><ion-icon name="menu"></ion-icon></button>
+    <ion-fab-list side="left">
+      <button ion-fab color="secondary" (click)="addEvent(calfab)"><ion-icon name="add"></ion-icon></button>
+      <button ion-fab color="primary" (click)="listMonthEvents(calfab)"><ion-icon name="clock"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
   <table width="100%" border="1" style="height: 100%;">
     <tr style="height: 4%;">
       <th width="14.28%">Sun</th>
